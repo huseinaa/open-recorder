@@ -1,0 +1,2 @@
+// Written by tools/make_icon.py, do not edit by hand: change the numbers there and run it.
+export const LOGO_MARK = '<svg class="logo-mark" viewBox="9.90 9.90 44.20 44.20" aria-hidden="true"><path fill="currentColor" d="M36.08 19.45A13.2 13.2 0 0 0 21.89 40.48A13.2 13.2 0 0 0 45.07 30.16L53.39 28.99A21.599999999999998 21.599999999999998 0 0 1 15.45 45.88A21.599999999999998 21.599999999999998 0 0 1 30.39 10.46C34.95 11.01 37.51 15.05 36.08 19.45Z"/></svg>';

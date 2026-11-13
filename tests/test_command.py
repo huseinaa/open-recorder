@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from open_recorder.capture import build_command, preview_size
+from open_recorder.recorder.capture import build_command, preview_size
 
 SCREEN_IN = ["-f", "gdigrab", "-i", "desktop"]
 VIDEO = ["-c:v", "libx264"]

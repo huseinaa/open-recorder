@@ -5,7 +5,7 @@ import subprocess
 import pytest
 
 from open_recorder import ffmpeg
-from open_recorder.recording import Recording, recover
+from open_recorder.recorder.recording import Recording, recover
 
 pytestmark = pytest.mark.skipif(not ffmpeg.available(), reason="ffmpeg is not installed")
 

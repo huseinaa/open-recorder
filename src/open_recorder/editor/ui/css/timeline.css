@@ -1,0 +1,67 @@
+/* The timeline: toolbar, track headers, ruler, lanes, clips, playhead. */
+.tl { display: flex; flex-direction: column; height: 100%; }
+.tl-toolbar { height: var(--header-h); flex: none; display: flex; align-items: center; gap: 4px; padding: 0 8px; border-bottom: 1px solid var(--line); }
+.tl-toolbar .sep { width: 1px; height: 18px; background: var(--line); margin: 0 6px; }
+.tl-toolbar .timecode { font-size: var(--fs-lg); color: #9db8ff; margin-left: 4px; min-width: 104px; }
+.tl-toolbar input[type="range"] { width: 120px; accent-color: var(--brand); }
+.tl-toolbar .spacer { flex: 1; }
+
+.tl-body { flex: 1; display: grid; grid-template-columns: 168px 1fr; min-height: 0; }
+.tl-heads { border-right: 1px solid var(--line); overflow: hidden; background: var(--panel); }
+.tl-heads-inner { padding-top: 28px; }
+.lane-head { display: flex; align-items: center; gap: 2px; padding: 0 4px 0 0; border-bottom: 1px solid var(--line); position: relative; }
+.lane-head .tag { width: 4px; align-self: stretch; margin-right: 8px; }
+.lane-head .name { flex: 1; min-width: 0; font-size: var(--fs-sm); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: grab; }
+.lane-head .name input { width: 100%; height: 22px; font-size: var(--fs-sm); }
+.lane-head .icon-btn { width: 22px; height: 22px; }
+.lane-head .icon-btn svg { width: 14px; height: 14px; }
+.lane-head.drop-above { box-shadow: inset 0 2px 0 var(--brand); }
+
+.tl-scroll { overflow: auto; position: relative; background: var(--ground); }
+.tl-content { position: relative; min-height: 100%; }
+.tl-ruler { position: sticky; top: 0; height: 28px; z-index: 6; background: var(--panel); border-bottom: 1px solid var(--line); cursor: text; }
+.tl-ruler canvas { position: absolute; left: 0; top: 0; }
+.tl-lanes { position: relative; }
+.lane { position: relative; border-bottom: 1px solid var(--line); background: #18191c; }
+.lane:nth-child(even) { background: #17181b; }
+.lane.locked { background-image: repeating-linear-gradient(-45deg, transparent 0 6px, rgba(255, 255, 255, 0.025) 6px 12px); }
+.lane.drop-target { background: rgba(47, 107, 255, 0.08); }
+.lane.drop-bad { background: rgba(239, 90, 95, 0.07); }
+.tl-tail { height: 60px; }
+
+.clip {
+  position: absolute; top: 3px; bottom: 3px; border-radius: 5px; overflow: hidden; cursor: pointer;
+  background: var(--c, var(--clip-video)); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  min-width: 3px;
+}
+.clip.k-face { --c: var(--clip-face); }
+.clip.k-screen { --c: var(--clip-screen); }
+.clip.k-video { --c: var(--clip-video); }
+.clip.k-image { --c: var(--clip-image); }
+.clip.k-audio { --c: var(--clip-audio); }
+.clip.k-blur { --c: var(--clip-blur); background-image: repeating-linear-gradient(-45deg, transparent 0 7px, rgba(0, 0, 0, 0.12) 7px 14px); }
+.clip canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.clip .label { position: absolute; left: 6px; top: 3px; right: 6px; display: flex; align-items: center; gap: 4px; font-size: var(--fs-xs); font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8); pointer-events: none; z-index: 2; }
+.clip .label svg { width: 11px; height: 11px; stroke-width: 2.2; opacity: 0.9; }
+.clip.selected { box-shadow: inset 0 0 0 2px var(--brand), 0 0 0 1px var(--brand); }
+.clip.muted-audio::after { content: ""; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.25); pointer-events: none; }
+.clip.ghost { opacity: 0.85; z-index: 5; }
+.clip .edge { position: absolute; top: 0; bottom: 0; width: 7px; z-index: 3; cursor: ew-resize; }
+.clip .edge.l { left: 0; }
+.clip .edge.r { right: 0; }
+.clip .edge:hover { background: rgba(255, 255, 255, 0.25); }
+.tl.tool-razor .clip, .tl.tool-razor .clip .edge { cursor: crosshair; }
+.tl.tool-hand .tl-scroll, .tl.tool-hand .clip { cursor: grab; }
+.tl.tool-ripple .clip .edge { cursor: col-resize; }
+.razor-line { position: absolute; top: 0; bottom: 0; width: 1px; background: #fff; pointer-events: none; z-index: 7; opacity: 0.8; }
+.snap-line { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--warn); pointer-events: none; z-index: 7; }
+
+.playhead { position: absolute; top: 0; bottom: 0; width: 0; z-index: 8; pointer-events: none; }
+.playhead::before { content: ""; position: absolute; top: 0; bottom: 0; left: -0.5px; width: 1px; background: var(--brand); }
+.playhead .head { position: sticky; top: 0; margin-left: -6px; width: 13px; height: 18px; background: var(--brand); clip-path: polygon(0 0, 100% 0, 100% 62%, 50% 100%, 0 62%); pointer-events: auto; cursor: ew-resize; }
+.tl-empty { position: absolute; left: 20px; top: 50px; color: var(--muted); pointer-events: none; }
+
+/* dragging a take or file in from the Project panel (js/bindrag.js) */
+.tl-scroll.drop-zone { box-shadow: inset 0 0 0 1px var(--brand-line); }
+.drag-ghost { position: fixed; left: 0; top: 0; z-index: 1000; pointer-events: none; max-width: 260px; padding: 5px 10px; border-radius: var(--r-md); background: var(--raised); box-shadow: var(--shadow-pop); color: var(--text); font-size: var(--fs-sm); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+body.bin-dragging, body.bin-dragging * { cursor: grabbing !important; user-select: none; }

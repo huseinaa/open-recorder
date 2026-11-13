@@ -17,7 +17,7 @@ def create_shortcut() -> Path | None:
     exe = Path(sys.executable)
     pythonw = exe.with_name("pythonw.exe")
     target = pythonw if pythonw.exists() else exe
-    icon = Path(__file__).resolve().parent / "assets" / "icon.ico"
+    icon = Path(__file__).resolve().parent / "assets" / "open-recorder.ico"
     script = "; ".join([
         "$desktop = [Environment]::GetFolderPath('Desktop')",
         f"$path = Join-Path $desktop {_ps(APP_NAME + '.lnk')}",

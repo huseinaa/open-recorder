@@ -44,7 +44,21 @@ class Settings:
     hotkey_pause: str = "ctrl+alt+p"
     silent_mic_db: float = -75    # below this the mic counts as silent
     silent_mic_seconds: float = 4  # silent this long while recording = an alarm
-    theme: dict = field(default_factory=dict)  # colour overrides, see ui/theme.py
+    theme: dict = field(default_factory=dict)  # colour overrides, see recorder/ui/theme.py
+    # ---- the editor ----
+    recent: dict = field(default_factory=dict)   # project folder -> when it was last opened (unix time)
+    editor: dict = field(default_factory=dict)   # window and panel sizes, last export choices
+    # ---- the AI (runs on the user's own Claude or Codex subscription) ----
+    ai_primary: str = "claude"    # which one answers first when both are connected
+    ai_connected: dict = field(default_factory=dict)  # provider -> True once a test run worked
+    claude_model: str = "sonnet"  # empty: Claude Code's own default
+    claude_effort: str = "medium"
+    codex_model: str = ""         # empty: Codex's own default
+    codex_effort: str = "medium"
+    transcriber: str = ""         # "", "whisper", "assemblyai", or "skip" when the user said not now
+    whisper_model: str = "small"  # tiny, base, small or medium
+    whisper_device: str = "cpu"   # cpu, or cuda with the NVIDIA libraries installed
+    assemblyai_key: str = ""
 
     def __post_init__(self):
         self._path = DEFAULT_CONFIG

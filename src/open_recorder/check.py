@@ -7,7 +7,7 @@ import sys
 
 from . import APP_NAME, __version__, ffmpeg
 from .config import LOG_DIR, Settings
-from .screens import Screens
+from .recorder.screens import Screens
 from .win32 import windows_build
 
 

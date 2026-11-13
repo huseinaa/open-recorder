@@ -1,11 +1,17 @@
+<img src="src/open_recorder/assets/icon.png" alt="Open Recorder logo" width="96">
+
 # Open Recorder
 
-A free screen + webcam recorder for Windows. I built it to film the lectures for my coding program,
-because I wanted something free and stable that does exactly this. It records your screen and your
-face at the same time, shows your face in a round bubble while you talk, and the controls never
-show up in the video.
+A free screen + webcam recorder **and editor** for Windows. I built it to film the lectures for my
+coding program, because I wanted something free and stable that does exactly this. It records your
+screen and your face at the same time, shows your face in a round bubble while you talk, and the
+controls never show up in the video.
 
-It's the recorder I use every day. Here's how to use it too.
+Then you edit right there: a simple timeline to cut, trim and move clips, your face as a circle or
+a square anywhere on the frame, landscape or vertical, and an AI that makes the cuts for you on
+your own Claude or ChatGPT subscription.
+
+It's the tool I use every day. Here's how to use it too.
 
 ---
 
@@ -30,6 +36,24 @@ It's the recorder I use every day. Here's how to use it too.
   of a long explanation.
 - **Uses your graphics card to encode** (Nvidia, Intel or AMD), and your CPU if there isn't one.
 - **Global hotkeys** that work while any other app is in front.
+
+**And the editor:**
+
+- **Projects.** Pick one folder on the first launch. *Record now* saves straight into it; every
+  *New project* is a named folder inside it, and every take you record in a project lands on its
+  timeline.
+- **A simple timeline**, laid out like the big editors but with only what you need: lanes for your
+  face and voice, your screen, B-roll, music and blurs. Split, trim, move, delete, close gaps, split
+  the sound from the picture, undo everything.
+- **Your face where you want it.** Drag it, resize it, make it a circle or a rounded square. It
+  starts bottom-left, the way it was recorded.
+- **Any shape of video:** landscape 16:9, vertical 9:16 for Reels, Shorts and TikTok, square, or
+  4:5. The layout follows.
+- **Blur** a part of the screen (a password, an email) for as long as you need.
+- **An AI that edits.** Ask "cut the silences" or "remove the repeated takes" and it changes the
+  timeline. It runs on the Claude Code or Codex you already use, on your own subscription. Every AI
+  edit is one Ctrl+Z.
+- **Export** to an MP4 at the canvas size, with your graphics card doing the work.
 
 ---
 
@@ -79,10 +103,24 @@ This makes an **Open Recorder** shortcut on your Desktop that opens it with no t
 
 ## Use it
 
-Double-click the shortcut (or run `open-recorder` in a terminal). The first time, it asks which
-folder to save your recordings in.
+Double-click the shortcut (or run `open-recorder` in a terminal). The first time, it asks for one
+folder: your recordings and your projects all go in it.
 
-A bar appears at the top of the screen with three cards:
+Then you get the start screen:
+
+- **Record now** opens the recorder bar. Takes are saved straight into your folder. When you stop,
+  the editor offers to open the take.
+- **New project** asks for a name and a canvas shape (landscape, vertical, square, portrait) and
+  makes a folder for it inside your folder. Press **Record** in a project and every take you make
+  lands at the end of its timeline.
+- Your recent projects are underneath. *Open a folder* opens any folder of recordings as a project.
+  Right-click a project (or use its **⋯** button) to rename it or delete it. Deleting sends its
+  folder to the Recycle Bin, so you can restore it.
+
+### Recording
+
+When you record, the editor gets out of the way and a bar appears at the top of the screen with
+three cards:
 
 | Card | Toggle | Menu (the arrow) |
 |---|---|---|
@@ -104,6 +142,71 @@ Then:
 One beep = recording started (start talking after it). Two beeps = stopped and saved. Three fast
 high beeps = something's wrong (the mic went silent, or the recording broke), and the bar says
 which.
+
+Want just the bar, no editor? `open-recorder --record`.
+
+### Editing
+
+The editor has four panels: **Project** (your takes and files) on the left, **Program** (the video)
+in the middle, **Effect Controls** and **AI** on the right, and the **timeline** across the bottom.
+
+- Drag a take or a file onto the timeline, or double-click it. Drop files in from Explorer too.
+- Click a clip to select it. Your face and screen are linked, so they move and cut together; the
+  chain button in the timeline turns that off.
+- Select your face clip and drag it on the video, pull a corner to resize it, and pick circle,
+  square or none in the small bar above it.
+- Right-click a take or a file to delete it. It goes to the Recycle Bin, and its clips leave the
+  timeline. A file you linked from another folder is only removed from the project.
+- **+ Lane** adds a lane for B-roll, music or a blur.
+- **Export** (top right) renders an MP4 into the project's `Exports` folder.
+
+| Shortcut | What it does |
+|---|---|
+| `Space` | play / pause |
+| `V` / `C` / `B` / `H` | Selection, Razor (click to split), Ripple trim (shorten and close the gap), Hand |
+| `S` | split at the playhead |
+| `Delete` / `Shift+Delete` | delete / delete and close the gap |
+| `Ctrl+Z` / `Ctrl+Shift+Z` | undo / redo |
+| `Left` / `Right` | one frame back / forward (`Shift` for one second) |
+| `Home` / `End` | start / end |
+| `+` / `-`, `Ctrl` + wheel | zoom the timeline |
+| `R` | record a take into this project |
+| `Ctrl+E` | export |
+
+---
+
+## The AI
+
+Open the **AI** tab. It walks you through two things:
+
+**1. Connect Claude or Codex.** The AI is the command-line agent you already have, signed in with
+your own account:
+
+- **Claude**: install [Claude Code](https://docs.claude.com/en/docs/claude-code/setup), run
+  `claude` in a terminal once and sign in. Then press **Connect Claude**.
+- **Codex**: install the [Codex CLI](https://developers.openai.com/codex/cli), run `codex login`.
+  Then press **Connect Codex**.
+
+Connect both and the second one answers whenever the first is out of usage.
+
+**2. Pick how your voice is transcribed**, so the AI knows what you said and can cut retakes and
+mistakes, not only silences:
+
+- **Whisper**: free, runs on your PC, nothing is uploaded. The app downloads it once (about 500 MB
+  for the recommended size). The same as `pip install "open-recorder[ai]"`.
+- **AssemblyAI**: more accurate, especially with mixed languages and fast speech. Needs your own API
+  key from [assemblyai.com](https://www.assemblyai.com), and the sound of each take is uploaded to
+  them.
+- Or skip it: the AI can still cut silences.
+
+Then just ask: *"cut the silences"*, *"remove the repeated takes"*, *"make it vertical"*, *"blur the
+top right corner for the first 5 seconds"*. The answer says what changed, with an **Undo** button.
+
+**How it runs.** Open Recorder never signs you in to anything and never sees your password or
+tokens. It runs the `claude` or `codex` program you installed, on your computer, with any API key
+removed from its environment, so the work is billed to your subscription, not to a key. It sends
+the AI the timeline and the transcript, never the video. (Anthropic doesn't allow third-party apps
+to offer a Claude.ai login of their own, which is why it only uses the one you made yourself.)
 
 ---
 
@@ -143,7 +246,7 @@ Close Open Recorder before editing it. The ones worth knowing:
 
 | Setting | What it changes | Default |
 |---|---|---|
-| `output_dir` | where recordings are saved (also changeable from the folder icon) | asked on first open |
+| `output_dir` | the folder for recordings and projects (changeable in the editor's settings) | asked on first open |
 | `fps` | frames per second of both files | `30` |
 | `width`, `height` | the camera resolution it asks for first | `1920`, `1080` |
 | `encoder` | `auto`, `h264_nvenc` (Nvidia), `h264_qsv` (Intel), `h264_amf` (AMD) or `libx264` (CPU) | `auto` |
@@ -154,8 +257,12 @@ Close Open Recorder before editing it. The ones worth knowing:
 | `hotkey_record_stop`, `hotkey_pause` | for example `ctrl+alt+r`, `ctrl+shift+f9` | |
 | `silent_mic_db`, `silent_mic_seconds` | how quiet, for how long, before the silent-mic beeps | `-75`, `4` |
 | `theme` | colours, for example `{"accent": "#E5484D"}` for a red record button | |
+| `claude_model`, `claude_effort` | the model and effort the AI uses with Claude (also in the editor's settings) | `sonnet`, `medium` |
+| `codex_model`, `codex_effort` | the same for Codex (empty = Codex's default) | `""`, `medium` |
+| `transcriber` | `whisper`, `assemblyai`, or `skip` | asked in the AI tab |
+| `whisper_model`, `whisper_device` | `tiny`, `base`, `small` or `medium`; `cpu` or `cuda` | `small`, `cpu` |
 
-The colour names for `theme` are in [`src/open_recorder/ui/theme.py`](src/open_recorder/ui/theme.py).
+The colour names for `theme` are in [`src/open_recorder/recorder/ui/theme.py`](src/open_recorder/recorder/ui/theme.py).
 
 ---
 
@@ -186,21 +293,33 @@ pytest
 ```
 
 `open-recorder --selftest` records, pauses and resumes twice, stops and quits on its own (about 25
-seconds), which is the quickest way to check a change end to end.
+seconds), which is the quickest way to check a recorder change end to end.
 `open-recorder --visible` leaves the bar and bubble visible to capture, for taking screenshots of
-the recorder itself.
+the recorder itself. `open-recorder --debug` opens the editor with the web inspector.
 
-| Module | What's in it |
+`python tools/ui_harness.py OUT_DIR` drives the editor's real back end and page in a headless Edge
+(needs `pip install playwright`), walks every screen and saves screenshots, with no window on your
+screen. Add `--ai` to include one real AI edit.
+
+`python tools/make_icon.py` draws the logo (the numbers for the ring and the colours are at the top
+of the file) and writes every file that shows it: the app icon, the README image, the editor's
+favicon and the mark in its top bar.
+
+The code is in layers that only call downward: the page, then `editor/`, then the services, then
+`core/`.
+
+| Package | What's in it |
 |---|---|
-| `app.py` | the state machine, the button and hotkey actions, the UI loop |
-| `capture.py` | the ffmpeg command line and the running ffmpeg process |
-| `recording.py` | segments, joining them into one pair, crash recovery |
-| `screens.py` | monitors and the fast screen capture probe |
-| `ffmpeg.py` | finding ffmpeg, devices, picking the encoder |
-| `config.py` | the settings file |
-| `win32.py` | the Windows calls (hide from capture, hotkeys, keep awake) |
-| `ui/` | the bar, the bubble, the theme |
-| `check.py` | `--check` |
+| `recorder/` | the recorder bar: state machine (`app.py`), ffmpeg capture, segments and crash recovery, screens, the bar and bubble UI |
+| `core/` | the project model, the edit language (`core/ops/`, every change is an op), undo, default layouts per canvas shape. Pure Python, no I/O |
+| `project/` | projects on disk: the root folder library, `project.json`, finding takes and pairing screen + camera |
+| `media/` | ffprobe facts, thumbnail strips, waveforms, silence detection, all cached in the project |
+| `export/` | the project as one ffmpeg command (`graph.py`, pure), masks, the running export |
+| `ai/` | Claude and Codex runners, the fallback router, the answer schema, the prompt, one chat turn |
+| `transcribe/` | Whisper and AssemblyAI behind one interface, the transcript cache |
+| `editor/` | the window (pywebview), the local media server, the API the page calls, the session, background jobs, the link to the recorder |
+| `editor/ui/` | the page: plain HTML, CSS and JavaScript modules, no build step |
+| `ffmpeg.py`, `config.py`, `win32.py`, `check.py` | shared: finding ffmpeg, the settings file, Windows calls, `--check` |
 
 ---
 

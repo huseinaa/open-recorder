@@ -1,0 +1,50 @@
+/* Every colour, size and font the editor uses. Change the look here, nowhere else. */
+:root {
+  color-scheme: dark;
+
+  --ground: #151618;      /* behind everything, the monitor surround */
+  --panel: #1c1d20;       /* panel bodies */
+  --raised: #24262a;      /* inputs, cards, panel headers */
+  --raised-2: #2c2e33;    /* hover */
+  --line: #2e3035;        /* 1px dividers */
+  --line-strong: #3a3d43;
+
+  --text: #e7e8ea;
+  --muted: #8e929a;
+  --faint: #5f636b;
+
+  --brand: #2f6bff;       /* selection, playhead, primary actions only */
+  --brand-soft: rgba(47, 107, 255, 0.16);
+  --brand-line: rgba(47, 107, 255, 0.55);
+  --rec: #e5484d;         /* the record control only */
+  --ok: #3fb68b;
+  --warn: #e0a83b;
+  --error: #ef5a5f;
+
+  /* clip colours: one per kind of clip, muted so the selection blue stays the loudest thing */
+  --clip-face: #2a8f86;
+  --clip-screen: #4f6496;
+  --clip-video: #7a5fb8;
+  --clip-image: #9c6a3f;
+  --clip-audio: #3f8a55;
+  --clip-blur: #b08a3a;
+
+  --font: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+  --fs-xs: 11px;
+  --fs-sm: 12px;
+  --fs-md: 13px;
+  --fs-lg: 15px;
+  --fs-xl: 20px;
+  --fs-hero: 30px;
+
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-lg: 10px;
+  --gap: 8px;
+  --header-h: 34px;
+  --topbar-h: 44px;
+
+  --shadow-pop: 0 12px 32px rgba(0, 0, 0, 0.45), 0 0 0 1px var(--line-strong);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}

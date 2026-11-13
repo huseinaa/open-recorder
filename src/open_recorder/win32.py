@@ -139,3 +139,20 @@ def start_hotkeys(bindings: dict[str, str], callback: Callable[[str], None]) -> 
             if msg.message == WM_HOTKEY and msg.wParam in names:
                 callback(names[msg.wParam])
     threading.Thread(target=loop, daemon=True).start()
+
+
+class _SHFileOp(ctypes.Structure):
+    _fields_ = [("hwnd", wt.HWND), ("wFunc", wt.UINT), ("pFrom", wt.LPCWSTR), ("pTo", wt.LPCWSTR),
+                ("fFlags", ctypes.c_ushort), ("fAnyOperationsAborted", wt.BOOL),
+                ("hNameMappings", ctypes.c_void_p), ("lpszProgressTitle", wt.LPCWSTR)]
+
+
+def recycle(path) -> None:
+    """Send a file or folder to the Recycle Bin, with no Windows dialog. Raises OSError if it
+    could not (a file in it is open somewhere, for example)."""
+    FO_DELETE, FOF_SILENT, FOF_NOCONFIRMATION, FOF_ALLOWUNDO, FOF_NOERRORUI = 3, 0x4, 0x10, 0x40, 0x400
+    op = _SHFileOp(None, FO_DELETE, str(path) + "\0", None,  # the list ends with a second NUL
+                   FOF_SILENT | FOF_NOCONFIRMATION | FOF_ALLOWUNDO | FOF_NOERRORUI, False, None, None)
+    code = ctypes.windll.shell32.SHFileOperationW(ctypes.byref(op))
+    if code or op.fAnyOperationsAborted:
+        raise OSError(f"Windows could not move it to the Recycle Bin (code {code})")
